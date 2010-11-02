@@ -28,39 +28,32 @@ import supybot.callbacks as callbacks
 import htmlentitydefs
 
 def unescape(text):
-   """Removes HTML or XML character references 
+  '''
+  Removes HTML or XML character references 
       and entities from a text string.
       keep &amp;, &gt;, &lt; in the source code.
    from Fredrik Lundh
    http://effbot.org/zone/re-sub.htm#unescape-html
-   """
-   def fixup(m):
-      text = m.group(0)
-      if text[:2] == "&#":
-         # character reference
-         try:
-            if text[:3] == "&#x":
-               return unichr(int(text[3:-1], 16))
-            else:
-               return unichr(int(text[2:-1]))
-         except ValueError:
-            pass
-      else:
-         # named entity
-         try:
-            if text[1:-1] == "amp":
-               text = "&amp;amp;"
-            elif text[1:-1] == "gt":
-               text = "&amp;gt;"
-            elif text[1:-1] == "lt":
-               text = "&amp;lt;"
-            else:
-               print text[1:-1]
-               text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
-         except KeyError:
-            pass
+  '''
+  def fixup(m):
+    text = m.group(0)
+    if text[:2] == "&#":
+      # character reference
+      try:
+        if text[:3] == "&#x":
+          return unichr(int(text[3:-1], 16))
+        else:
+          return unichr(int(text[2:-1]))
+      except ValueError:
+        pass
+    else:
+      # named entity
+      try:
+        text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
+      except KeyError:
+        pass
       return text # leave as is
-   return re.sub("&#?\w+;", fixup, text)
+  return re.sub("&#?\w+;", fixup, text)
 
 
 class SMHoF(callbacks.Plugin):
@@ -82,12 +75,14 @@ class SMHoF(callbacks.Plugin):
     
     
     def top(self, irc, msg, args):
+      '''- Displays the top 10 donors.'''
       donors = self.TOP_DONORS()
       r = ', '.join(['$%s - %s' % (d['amount'], d['name']) for d in donors])
       irc.reply('Top donors: ' + r)
     top = wrap(top, [])
     
     def latest(self, irc, msg, args):
+      '''- Displays the latest 10 donors.'''
       donors = self.LATEST_DONORS()[:10]
       r = ', '.join(['$%s - %s (%s)' % (d['amount'], d['name'], d['date']) for d in donors])
       irc.reply('Latest donors: ' + r)
