@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests
+END
+test_pass3.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_pass3.py
+END
+test_recursion.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_recursion.py
+END
+test_attacks.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_attacks.py
+END
+test_fail.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_fail.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/__init__.py
+END
+test_indent.py
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_indent.py
+END
+test_separators.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_separators.py
+END
+test_dump.py
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_dump.py
+END
+test_unicode.py
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_unicode.py
+END
+test_pass1.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_pass1.py
+END
+test_pass2.py
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/bob/!svn/ver/1018/simplejson/tags/simplejson-1.7.2/simplejson/tests/test_pass2.py
+END

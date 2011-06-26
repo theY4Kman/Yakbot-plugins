@@ -1,0 +1,81 @@
+#!/usr/bin/env python
+# =============================================================================
+# Wikipedia
+# Copyright (C) 2009 Zach "theY4Kman" Kanzler
+# =============================================================================
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License, version 3.0, as published by the
+# Free Software Foundation.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import re
+import urllib2
+
+import supybot.utils as utils
+from supybot.commands import *
+import supybot.plugins as plugins
+import supybot.ircutils as ircutils
+import supybot.callbacks as callbacks
+
+
+rgx_p_tag = re.compile(r'(?<!">\s)<p>(.*?)</p>$', re.M | re.DOTALL)
+rgx_tags = re.compile(r'<[^>]*?>')
+rgx_sup_tag = re.compile(r'<sup.*?</sup>')
+
+def irc_clean_text(value):
+    "Cleans up HTML to an acceptable IRC message"
+    
+    value = value.replace("<b>", "\x02").replace("</b>", "\x02").replace("&amp;", "&")
+    value = rgx_sup_tag.sub('', value)
+    value = rgx_tags.sub('', value)
+    return value
+
+
+class Wikipedia(callbacks.Plugin):
+    """Use the wiki command to see the short description of the Wikipedia
+    article."""
+    threaded = True
+    
+    def GetSummary(self, url, irc):
+        opener = urllib2.build_opener()
+        opener.addheaders = [("User-agent", "Mozilla/5.0")]
+        page = opener.open(url)
+        
+        if page is None:
+            irc.error("error downloading the article")
+            return
+        
+        contents = page.read()
+        ptag = rgx_p_tag.search(contents)
+        
+        if ptag is None:
+            return "Could not find a summary for the article"
+        
+        summ = ptag.group(1)
+        return irc_clean_text(summ)
+    
+    def wiki(self, irc, msg, args, text):
+        irc.reply(self.GetSummary("http://en.wikipedia.org/w/index.php?"
+            "printable=yes&title=" + text.replace(" ", "_"), irc) +
+            " (http://en.wikipedia.org/wiki/" + text.replace(" ", "_") + ")")
+    wiki = wrap(wiki, ["text"])
+    
+    def smwiki(self, irc, msg, args, text):
+        irc.reply(self.GetSummary("http://wiki.alliedmods.net/index.php?"
+            "printable=yes&title=" + text.replace(" ", "_"), irc).encode("ascii", "replace") +
+            " (http://wiki.alliedmods.net/" + text.replace(" ", "_") + ")")
+    smwiki = wrap(smwiki, ["text"])
+
+
+Class = Wikipedia
+
+
+# vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:
