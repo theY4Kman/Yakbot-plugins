@@ -123,6 +123,25 @@ class SqliteAnswersDB(object):
         
         return [(row[0], row[1]) for row in cur]
 
+    def random_answer(self):
+        """
+        Returns a random (term, answer) tuple.
+
+        @rtype: tuple(str, str)
+        @return: A random term/answer pair retrieved from the database.
+        """
+        cur = self.db.cursor()
+
+        cur.execute("SELECT terms.term,answers.answer FROM answers"
+                    " JOIN terms ON terms.answer_id = answers.id"
+                    " ORDER BY RANDOM() LIMIT 1;")
+
+        if cur.rowcount == 0:
+            return ('Empty', 'There ain\'t a darned thing in this database!')
+
+        row = cur.fetchone()
+        return (row[0], row[1])
+
 
 AnswersDB = plugins.DB("Answers", {'sqlite': SqliteAnswersDB})
 
@@ -160,7 +179,6 @@ class Answers(callbacks.Plugin):
         except Exception,e:
             irc.error('Error adding to the database.')
             raise
-            
     add = wrap(add, ['anything', 'anything', optional('text')])
     
     def find(self, irc, msg, args, search):
@@ -180,6 +198,13 @@ class Answers(callbacks.Plugin):
         else:
             irc.reply("(1 of \x02%d\x02) %s" % (answers_cnt, answers[0]))
     find = wrap(find, ['text'])
+
+    def random(self, irc, msg, args):
+        """
+        Returns a random term/answer.
+        """
+        term,answer = self.db.random_answer()
+        irc.reply('%s: %s', (term, answer))
 
 
 Class = Answers
