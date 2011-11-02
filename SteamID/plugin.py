@@ -2,7 +2,7 @@
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:
 # =============================================================================
 # Steam ID Converter
-# Copyright (C) 2008-2010 Zach "theY4Kman" Kanzler
+# Copyright (C) 2008-2011 Zach "theY4Kman" Kanzler
 # =============================================================================
 #
 # This program is free software; you can redistribute it and/or modify it under
@@ -37,7 +37,7 @@ class SteamID(callbacks.Plugin):
     try:
       profile = SteamCommunityProfile.input_to_profile(text)
     except SteamIDError,e:
-      irc.error(str(e))
+      irc.error(unicode(e))
       return
     
     if profile is None:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # =============================================================================
 # Steam ID Converter
-# Copyright (C) 2008 Zach "theY4Kman" Kanzler
+# Copyright (C) 2008-2011 Zach "theY4Kman" Kanzler
 # =============================================================================
 #
 # This program is free software; you can redistribute it and/or modify it under

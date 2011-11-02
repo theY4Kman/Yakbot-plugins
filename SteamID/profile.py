@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # =============================================================================
 # Steam ID Converter
-# Copyright (C) 2008-2010 Zach "theY4Kman" Kanzler
+# Copyright (C) 2008-2011 Zach "theY4Kman" Kanzler
 # =============================================================================
 #
 # This program is free software; you can redistribute it and/or modify it under
@@ -28,14 +28,16 @@ class SteamIDError(Exception):
 class SteamCommunityProfile:
   '''Class that, given necessary details, returns all information on a Steam
   Community profile.'''
-    
+
+  rgx_steamid64 = re.compile(r'<steamID64>(\d+)</steamID64>', re.I)
   rgx_steamid = re.compile("STEAM_[0-5]:([01]):([0-9]+)", re.I) # group 1, 2
   rgx_commid = re.compile("(https?:\/\/steamcommunity\.com\/(profiles?|id)\/)?([0-9]{17,18})/?", re.I) # group 3
   rgx_userid = re.compile("(https?:\/\/steamcommunity\.com\/(profiles?|id)\/)?([^\/]+)/?", re.I) # group 3
   rgx_addfriend = re.compile(".*<a href=\"steam:\/\/friends\/add\/([0-9]{17,18})\">.*", re.I|re.U) # group 1
   rgx_player_search = re.compile('''<div class="resultItem">\s*<div class="pgtag">Player</div>\s*<div class="groupBlockMedium">\s*<div class="mediumHolder_default"><div class="avatarMedium"><a href="(?P<url>[^"]+)">''')
   
-  
+  MAX_LEVELS_OF_RECURSION = 10
+
   @staticmethod
   def STEAMID2COMMID(match):
       iServer = int(match.group(1))
@@ -55,13 +57,13 @@ class SteamCommunityProfile:
       return "STEAM_0:%d:%d" % ( iServer, iFriend )
   
   @staticmethod
-  def USERID2COMMID(userid):
-      url = "http://steamcommunity.com/id/%s" % userid
+  def USERID2COMMID(userid, level=0):
+      url = "http://steamcommunity.com/id/%s?xml=1" % userid
       page = urllib.urlopen(url)
       if not page:
           raise SteamIDError("error connecting to profile page.")
       
-      match = SteamCommunityProfile.rgx_addfriend.search(page.read())
+      match = SteamCommunityProfile.rgx_steamid64.search(page.read())
       if match is None:
           url = "http://steamcommunity.com/actions/Search?K=%s" % userid
           page = urllib.urlopen(url)
@@ -79,7 +81,10 @@ class SteamCommunityProfile:
           
           uid = SteamCommunityProfile.rgx_userid.match(scurl)
           if uid is not None:
-              return SteamCommunityProfile.USERID2COMMID(uid.group(3))
+              if level < SteamCommunityProfile.MAX_LEVELS_OF_RECURSION:
+                return SteamCommunityProfile.USERID2COMMID(uid.group(3), level=level+1)
+              else:
+                  raise SteamIDError('reached maximum level of recursion (%d)' % SteamCommunityProfile.MAX_LEVELS_OF_RECURSION)
           
           raise SteamIDError("name does not exist: http://steamcommunity.com/id/\x02%s\x02/" % userid)
       
@@ -123,7 +128,7 @@ class SteamCommunityProfile:
     
     self.update_data()
   
-  def __str__(self):
+  def __unicode__(self):
     fmt = {
       'steamid': self.steamid,
       'name': self.name,
