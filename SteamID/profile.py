@@ -141,6 +141,9 @@ class SteamCommunityProfile:
       return '%(steamid)s: %(url)s (or %(commurl)s )' % fmt
     else:
       return '%(name)s (%(steamid)s): %(url)s (or %(commurl)s )' % fmt
+
+  def __str__(self):
+      return unicode(self).encode('ascii', 'replace')
   
   def update_data(self):
     # Easiest: convert commid to steamid

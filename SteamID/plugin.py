@@ -37,13 +37,13 @@ class SteamID(callbacks.Plugin):
     try:
       profile = SteamCommunityProfile.input_to_profile(text)
     except SteamIDError,e:
-      irc.error(unicode(e))
+      irc.error(str(e))
       return
     
     if profile is None:
       irc.error("could not recognize your input.")
     else:
-      irc.reply(unicode(profile))
+      irc.reply(str(profile))
   steamid = wrap(steamid, ["text"])
 
 
