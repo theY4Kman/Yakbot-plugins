@@ -204,7 +204,7 @@ class Answers(callbacks.Plugin):
         Returns a random term/answer.
         """
         term,answer = self.db.random_answer()
-        irc.reply('%s: %s', (term, answer))
+        irc.reply('%s: %s' % (term, answer))
 
 
 Class = Answers
