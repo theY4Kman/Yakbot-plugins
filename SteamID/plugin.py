@@ -43,7 +43,7 @@ class SteamID(callbacks.Plugin):
     if profile is None:
       irc.error("could not recognize your input.")
     else:
-      irc.reply(str(profile))
+      irc.reply(unicode(profile))
   steamid = wrap(steamid, ["text"])
 
 
