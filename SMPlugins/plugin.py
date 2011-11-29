@@ -22,7 +22,7 @@ import supybot.plugins as plugins
 import supybot.ircutils as ircutils
 import supybot.callbacks as callbacs
 
-from . import search
+import search
 reload(search)
 
 class SMPlugins(callbacks.Plugin):
@@ -56,7 +56,7 @@ class SMPlugins(callbacks.Plugin):
         url = "http://sourcemod.net/plugins.php?search=1&%s=%s" % (criterion, search_terms)
 
         db_search_terms = search_terms.replace('%', '\\%').replace('*', '%')
-        if not exact
+        if not exact:
             db_search_terms = '%' + db_search_terms + '%'
 
         search_args = { criterion: db_search_terms }
