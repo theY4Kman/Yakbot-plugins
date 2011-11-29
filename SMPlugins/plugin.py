@@ -22,7 +22,8 @@ import supybot.plugins as plugins
 import supybot.ircutils as ircutils
 import supybot.callbacks as callbacs
 
-from .search import search, SearchPluginsError
+from . import search
+reload(search)
 
 class SMPlugins(callbacks.Plugin):
     """
@@ -55,7 +56,7 @@ class SMPlugins(callbacks.Plugin):
         url = "http://sourcemod.net/plugins.php?search=1&%s=%s" % (criterion, search_terms)
 
         search_args = { criterion: search }
-        plugins = search(**search_args)
+        plugins = search.search(**search_args)
         
         if exact is True:
             lowered = args.lower().strip()
