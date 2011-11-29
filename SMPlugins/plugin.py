@@ -55,7 +55,7 @@ class SMPlugins(callbacks.Plugin):
         search_terms = args.replace(" ", "+")
         url = "http://sourcemod.net/plugins.php?search=1&%s=%s" % (criterion, search_terms)
 
-        search_args = { criterion: search }
+        search_args = { criterion: search_terms }
         plugins = search.search(**search_args)
         
         if exact is True:
