@@ -55,15 +55,12 @@ class SMPlugins(callbacks.Plugin):
         search_terms = args.replace(" ", "+")
         url = "http://sourcemod.net/plugins.php?search=1&%s=%s" % (criterion, search_terms)
 
-        search_args = { criterion: search_terms }
+        db_search_terms = search_terms.replace('%', '\\%').replace('*', '%')
+        if not exact
+            db_search_terms = '%' + db_search_terms + '%'
+
+        search_args = { criterion: db_search_terms }
         plugins = search.search(**search_args)
-        
-        if exact is True:
-            lowered = args.lower().strip()
-            for plugin in plugins:
-                if plugin[criterion].strip() == lowered:
-                    plugins = (plugin,)
-                    break
 
         length = len(plugins)
         if length == 0:
