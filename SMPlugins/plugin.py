@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # =============================================================================
 # SourceMod Plug-ins Search
-# Copyright (C) 2008-2011 Zach "theY4Kman" Kanzler
+# Copyright (C) 2008,2011 Zach "theY4Kman" Kanzler
 # =============================================================================
 #
 # This program is free software; you can redistribute it and/or modify it under
@@ -20,7 +20,7 @@ import supybot.utils as utils
 from supybot.commands import *
 import supybot.plugins as plugins
 import supybot.ircutils as ircutils
-import supybot.callbacks as callbacs
+import supybot.callbacks as callbacks
 
 import search
 reload(search)
@@ -72,11 +72,11 @@ class SMPlugins(callbacks.Plugin):
                 "( http://forums.alliedmods.net/showthread.php?p=%s )" % (plugin['title'], plugin['author'],
                                                                           plugin['description'], plugin['postid'])
         elif length < 7:
-            return "Displaying \x02%d\x02 results: %s ( %s )" % (length, ", ".join(map(lambda o: o['title'], plugins)),
+            return "Displaying \x02%d\x02 results: %s ( %s )" % (length, ",".join(map(lambda o: o['title'], plugins)),
                                                                  url)
         else:
             return "First \x026\x02 results of \x02%d\x02: %s ( %s )" % (length, ", ".join(map(lambda o: o['title'],
-                                                                                               plugins)), url)
+                                                                                               plugins[:6])), url)
 
 
 Class = SMPlugins
