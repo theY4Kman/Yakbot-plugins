@@ -33,7 +33,8 @@ class SteamCommunityProfile:
   rgx_steamid = re.compile("STEAM_[0-5]:([01]):([0-9]+)", re.I) # group 1, 2
   rgx_commid = re.compile("(https?:\/\/steamcommunity\.com\/(profiles?|id)\/)?([0-9]{17,18})/?", re.I) # group 3
   rgx_userid = re.compile("(https?:\/\/steamcommunity\.com\/(profiles?|id)\/)?([^\/]+)/?", re.I) # group 3
-  rgx_addfriend = re.compile(".*<a href=\"steam:\/\/friends\/add\/([0-9]{17,18})\">.*", re.I|re.U) # group 1
+  #rgx_addfriend = re.compile(".*<a href=\"steam:\/\/friends\/add\/([0-9]{17,18})\">.*", re.I|re.U) # group 1 Broken now.
+  rgx_addfriend = re.compile("var ajaxFriendUrl = \"http://steamcommunity.com/actions/AddFriendAjax/([0-9]{17,18})\";")
   rgx_player_search = re.compile('''<div class="resultItem">\s*<div class="pgtag">Player</div>\s*<div class="groupBlockMedium">\s*<div class="mediumHolder_default"><div class="avatarMedium"><a href="(?P<url>[^"]+)">''')
   
   MAX_LEVELS_OF_RECURSION = 10
