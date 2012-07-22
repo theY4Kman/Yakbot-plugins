@@ -52,7 +52,7 @@ class SMPlugins(callbacks.Plugin):
     pluginsauthor = wrap(pluginsauthor, ["text"])
     
     def DO_PLUGIN_SEARCH(self, args, criterion, exact):
-        search_terms = args.replace(" ", "+")
+        search_terms = args
         url = "http://sourcemod.net/plugins.php?search=1&%s=%s" % (criterion, search_terms)
 
         db_search_terms = search_terms.replace('%', '\\%').replace('*', '%')
