@@ -61,7 +61,7 @@ class SMPlugins(callbacks.Plugin):
 
         search_args = { criterion: db_search_terms }
         plugins = search.search(**search_args)
-
+        
         length = len(plugins)
         if length == 0:
             # No results found
