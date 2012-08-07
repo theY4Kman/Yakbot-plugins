@@ -24,7 +24,7 @@ class SearchPluginsError(Exception):
     pass
 
 
-def search(title=None, author=None, approved=True):
+def search(title=None, author=None, approved=None):
     args = dict([('title', title)] if title else [] + [('author', author)] if author else [])
     if approved is not None:
         args['approved'] = int(approved)
