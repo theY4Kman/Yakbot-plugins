@@ -112,20 +112,22 @@ class ViperAPI(callbacks.Plugin):
         params = []
         if name is None:
             name = func['name']
-        if 'params' in func:
+        if 'params' in func and func['params']:
             for param in func['params']:
                 out = param['name']
                 if 'default' in param:
                     out += '=' + param['default']
+                params.append(out)
         return ViperAPI.Function(self, name, ', '.join(params))
     
     def DO_LOOKUP(self, args, exact=False):
         matches = []
+        search = args.lower()
         for name,desc in self._names.iteritems():
             if exact:
-                if name.lower().rsplit('.')[-1] == args:
+                if name.lower().rsplit('.')[-1] == search:
                     matches.append((name, desc))
-            elif args in name:
+            elif search in name.lower():
                 matches.append((name, desc))
 
         length = len(matches)
